@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .ball {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #6fcac4;
+      border-bottom-right-radius: 20px;
+      transform: rotate(45deg);
+      top: 693px;
+      left: 100px;
+      position: absolute;
+      /* box-shadow: -8px -8px 80px -8px #6fcac4 inset; */
+    }
+
+    .ball:hover {
+      cursor: pointer;
+    }
+
+    .ball::after {
+      position: absolute;
+      left: 93px;
+      bottom: 0px;
+      content: '';
+      width: 7px;
+      height: 7px;
+      background-color: #6fcac4;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body style="overflow: hidden;">
+  <div class="ball"></div>
+</body>
+<script>
+
+  //  1.每隔1s生成10个气球
+  createDOM();
+  // 2.每隔气球往上,速度不一样
+  move();
+  // 3.点击气球消失
+  clickDiv();
+  // 4.隔1s,移除超过屏幕的div
+  removeBall();
+
+
+  function removeBall() {
+    var divs = document.querySelectorAll('div');
+    // 删除超过屏幕范围的气球
+    for (let i = 0; i < divs.length; i++) {
+      var div = divs[i];
+      if (div.offsetTop < -150) {
+        document.body.removeChild(div);
+      }
+    }
+    setTimeout(removeBall, 100);
+  }
+
+
+  function createDOM() {
+    var divs = document.querySelectorAll('div');
+    if (divs.length < 20) {
+      // 生成div判断下,防止同屏的气球过多;
+      var tmpDom = document.createDocumentFragment();
+      for (let index = 0; index < 10; index++) {
+        var div = document.createElement('div');
+        div.style.left = Math.random() * 1200 + 'px';
+        div.speed = Math.ceil(Math.random() * 5);
+        div.className = "ball";
+        tmpDom.appendChild(div);
+      }
+      document.body.appendChild(tmpDom);
+    }
+    setTimeout(createDOM, 3000);
+  }
+
+
+  function move() {
+    var balls = document.querySelectorAll('.ball');
+    for (let index = 0; index < balls.length; index++) {
+      var tmpBall = balls[index];
+      var top = tmpBall.offsetTop;
+      tmpBall.style.top = (top - tmpBall.speed) + 'px';
+    }
+    setTimeout(move, 16);
+  }
+
+  function clickDiv() {
+    document.body.onclick = function (event) {
+      if (event.target.nodeName === 'DIV') {
+        var tmpTarget = event.target.style;
+        tmpTarget.transition = 'all 0.5s';
+        tmpTarget.transform = 'scale(0.1)'; // 此处不能等于设为0,有点意外...
+        setTimeout(() => {
+          document.body.removeChild(event.target);
+        }, 500);
+      }
+    }
+  }
+
+  // 定时器和事件代理
+</script>
+
+</html>

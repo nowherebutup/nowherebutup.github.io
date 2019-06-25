@@ -46,7 +46,6 @@
 </head>
 
 <body>
-  <div class="ball"></div>
 </body>
 <script>
 
@@ -80,7 +79,7 @@
       var tmpDom = document.createDocumentFragment();
       for (let index = 0; index < 10; index++) {
         var div = document.createElement('div');
-        div.style.left = Math.random() * 80 + 'vw';
+        div.style.left = Math.random() * 85 + 'vw';
         div.speed = Math.ceil(Math.random() * 5);
         div.className = "ball";
         tmpDom.appendChild(div);

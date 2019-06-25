@@ -46,7 +46,7 @@
 </head>
 
 <body>
-  1
+  2
 </body>
 <script>
 
@@ -107,9 +107,9 @@
         var tmpTarget = event.target.style;
         tmpTarget.transition = 'all 0.5s';
         tmpTarget.transform = 'scale(0.1)'; // 此处不能等于设为0,有点意外...
-        // setTimeout(() => {
-        //   document.body.removeChild(event.target);
-        // }, 500);
+        setTimeout(() => {
+          document.body.removeChild(event.target);
+        }, 500);
       }
     }
   }

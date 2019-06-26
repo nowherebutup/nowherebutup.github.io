@@ -3,20 +3,24 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=1">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, user-scalable=yes, minimum-scale=1, maximum-scale=1">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
-    html,body{
+    html,
+    body {
       height: 100vh;
       width: 100vw;
       overflow: hidden;
     }
-    *{
+
+    * {
       padding: 0;
       margin: 0;
       -webkit-tap-highlight-color: transparent;
     }
+
     .ball {
       width: 15vmin;
       height: 15vmin;
@@ -51,6 +55,7 @@
   4
 </body>
 <script>
+  var count = 0;
 
   //  1.每隔1s生成10个气球
   createDOM();
@@ -106,6 +111,11 @@
   function clickDiv() {
     document.body.onclick = function (event) {
       if (event.target.nodeName === 'DIV') {
+        if (count === 10) {
+
+        }
+        ++count;
+        document.body
         var tmpTarget = event.target.style;
         tmpTarget.transition = 'all 0.5s';
         tmpTarget.transform = 'scale(0.1)'; // 此处不能等于设为0,有点意外...

@@ -1,112 +1,83 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <style>
-    span {
-      display: block;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
 </head>
 
 <body>
-
-  <button id="btn">Change</button>
-  <div id="root"></div>
+  <div id="app"></div>
   <script>
+    // 1.根据js数据,创建js的DOM结构
+    class Element {
+      constructor(type, props, children) {
+        this.type = type;
+        this.props = props;
+        this.children = children;
+      }
+    }
+
     function dom(type, props, ...children) {
-      return { type, props, children }
+      return new Element(type, props, children);
     }
 
-    function createElement(node) {
-      if (typeof node === 'string') {
-        return document.createTextNode(node)
-      } else {
-        const $el = document.createElement(node.type)
-        // node.children
-        //   .map(createElement)
-        //   .forEach($el.appendChild.bind($el))
-        var mapArr = node.children.map(createElement);
-        mapArr.forEach($el.appendChild.bind($el));
-        return $el
-      }
+
+    // 2.将js的DOM结构生成实际的DOM插入到页面中
+    function render(vDom) {
+      let el = document.createElement(vDom.type);
+      Object.keys(vDom.props).forEach(key => {
+        setAttr(el, key, vDom.props[key]);
+      });
+
+      vDom.children.forEach(child => {
+        const subEl = (child instanceof Element) ? render(child) : document.createTextNode(child);
+        el.appendChild(subEl);
+      })
+
+      return el;
     }
 
-    function isChanged(node1, node2) {
-      return (
-        (typeof node1 !== typeof node2) ||
-        (typeof node1 === 'string' && node1 !== node2) ||
-        (node1.type !== node2.type)
-      )
-    }
+    function setAttr(el, key, val) {
+      switch (key) {
+        case 'value':
+          if (el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'textarea') {
+            el.value = val;
+          } else {
+            el[key] = val;
+          }
+          break;
 
-    function updateElement($parent, newNode, oldNode, index = 0) {
-      if (!oldNode) {
-        $parent.appendChild(
-          createElement(newNode)
-        )
-      }
-      else if (!newNode) {
-        $parent.removeChild(
-          $parent.childNodes[index]
-        )
-      }
-      else if (isChanged(newNode, oldNode)) {
-        $parent.replaceChild(
-          createElement(newNode),
-          $parent.childNodes[index]
-        )
-      }
-      else if (newNode.type) {
-        const newLen = Math.max(
-          newNode.children.length,
-          oldNode.children.length
-        )
-        for (let i = 0; i < newLen; i++) {
-          updateElement(
-            $parent.childNodes[index],
-            newNode.children[i],
-            oldNode.children[i],
-            i
-          )
-        }
+        case 'style':
+          el.style.cssText = val;
+          break;
+
+        default:
+          el.setAttribute(key, val);
       }
     }
+    function createPage(target, dom) {
+      document.getElementById(target).appendChild(dom);
+    }
 
-    const a = dom(
+    const objdata = dom(
       'div',
-      null,
-      dom('span', null, '123'),
-      dom('span', null, '456'),
-      dom('span', null, '789'),
-    )
-    console.log(a);
-    // 对虚拟 DOM 的直接声明，等效于以下注释代码
-    /*
-    const a = (
-      <div>
-        <span>123</span>
-        <span>456</span>
-        <span>789</span>
-      </div>
-    )
-    */
-
-    const b = dom(
-      'div',
-      null,
-      dom('span', null, '123'),
-      dom('span', null, '456'),
-      dom('span', null, '666')
+      { class: 'my-div' },
+      dom('p', { class: 'my-p' }, '第一行'),
+      dom('p', { class: 'my-p' }, '法法行'),
+      dom('p', { class: 'my-p' }, '认为他')
     )
 
-    const $root = document.getElementById('root')
-    const $btn = document.getElementById('btn')
-    updateElement($root, a)
-    $btn.addEventListener('click', () => {
-      updateElement($root, b, a)
-    })
+    const objDom = render(objdata);
+    createPage('app', objDom);
+
+  // 3.用深度优先遍历算法比较变化的数据,打上补丁
+
+  // 4.将补丁运用到真正的DOM结构
+
   </script>
-
 </body>
 
 </html>

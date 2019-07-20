@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .input-box,
+    .show-box {
+      height: 90vh;
+      width: 50%;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <textarea class="input-box" name="inputBox" id="inputId"></textarea>
+    <div class="show-box" id="showId"></div>
+  </div>
+  <script>
+    const show = document.querySelector('#showId'),
+      inputObj = document.querySelector('#inputId'),
+      symbomArr = {
+        '#': {
+          "fontWeight": 900,
+          "fontSize": "30px"
+        },
+        '##': {
+          "fontWeight": 700,
+          "fontSize": "24px"
+        },
+        '###': {
+          "fontWeight": 400,
+          "fontSize": "20px"
+        },
+        '####': {
+          "fontWeight": 100,
+          "fontSize": "16px"
+        },
+      };
+    inputObj.addEventListener('input', function () {
+      show.innerHTML = '';
+      let arr = this.value.split('\n');
+      let tmpDom = document.createDocumentFragment();
+      arr.forEach(ele => {
+        const eleArr = ele.split(/\s+/);
+        const dv = document.createElement('div');
+        if (eleArr.length > 1) {
+          const styleObj = symbomArr[eleArr[0]];
+          if (styleObj) {
+            Object.keys(styleObj).forEach(key => {
+              dv.style[key] = styleObj[key];
+            })
+          }
+          dv.innerText = eleArr[1];
+        } else {
+          dv.innerText = eleArr[0];
+        }
+        tmpDom.appendChild(dv);
+      });
+
+      show.appendChild(tmpDom);
+    })
+  </script>
+</body>
+
+</html>

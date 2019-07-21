@@ -48,8 +48,11 @@
           "fontSize": "16px"
         },
       };
+
+    // 输入框输入时候的生成md
     inputObj.addEventListener('input', function () {
       show.innerHTML = '';
+      localStorage.setItem('mdContent', this.value);
       let arr = this.value.split('\n');
       let tmpDom = document.createDocumentFragment();
       arr.forEach(ele => {
@@ -71,6 +74,19 @@
 
       show.appendChild(tmpDom);
     })
+
+    function initMd() {
+      const evt = document.createEvent('HTMLEvents');
+      evt.initEvent('input', false, false);
+      inputObj.dispatchEvent(evt);
+    }
+    // 刚进来检测有没有内容
+    inputObj.value = localStorage.getItem('mdContent');
+    if (inputObj.value) {
+      // 如果存在,则就要出发一次input事件
+      initMd();
+    }
+
   </script>
 </body>
 

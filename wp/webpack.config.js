@@ -11,7 +11,8 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: 'index.js'
+    filename: 'index.js',
+    chunkFilename: '[chunkhash].js'
   },
   module: {
     rules: [

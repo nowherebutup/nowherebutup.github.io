@@ -11,7 +11,7 @@ module.exports = {
   entry: './src/main.js',
   output: {
     path: resolve(__dirname, 'dist'),
-    filename: 'index.js',
+    filename: dev ? '[name].js' : '[chunkhash].js',
     chunkFilename: '[chunkhash].js'
   },
   module: {
@@ -27,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
       {
         test: /\.(png|jpg|jpeg|gif|eot|ttf|woff|woff2|svg|svgz)(\?.+)?$/,
@@ -42,12 +42,22 @@ module.exports = {
       }
     ]
   },
+  performance: {
+    hints: dev ? false : 'warning'
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
       chunksSortMode: 'none'
-    })
-  ]
+    }),
+    new webpack.HashedModuleIdsPlugin()
+  ],
+  optimization: {
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'all'
+    }
+  }
 }
 
 if (dev) {

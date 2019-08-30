@@ -1,9 +1,10 @@
 
 import 'regenerator-runtime/runtime'
+// 分开打包时候,使用异步加载,需要的就是这个插件
 
 const routes = {
-  '/foo': () => import('./view/foo/index'),
-  '/bar': () => import('./view/bar/index')
+  '/foo': () => import('~/view/foo/index'),
+  '/bar': () => import('~/view/bar/index')
 }
 
 class Router {

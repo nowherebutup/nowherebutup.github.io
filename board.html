@@ -11,7 +11,6 @@
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-
     h3 {
       text-align: center;
     }
@@ -19,113 +18,104 @@
 </head>
 
 <body>
-  <canvas id="cav" width="700" height="500"></canvas>
+  <canvas id="cav" width="800" height="500px"></canvas>
   <h3>A键: ← </h3>
   <h3>D键: → </h3>
 </body>
 <script>
-  function drawPic() {
-    const canvas = document.querySelector('#cav');
-    const pic = canvas.getContext('2d');
-    return pic;
-  }
-
-  function creatBoardObj(obj) {
-    obj.boardX = 270;
-    obj.boardY = 400;
-    obj.boardW = 200;
-    obj.boardH = 20;
-    obj.boardstep = 10;
-    obj.fillStyle = '#1f1f1f08';
-    obj.boardL = false;
-    obj.boardR = false;
-    obj.creatBoard = function () {
-      obj.fillRect(obj.boardX, obj.boardY, obj.boardW, obj.boardH);
-    }
-    obj.boardMoveLeft = function () {
-      obj.clearRect(obj.boardX, obj.boardY, obj.boardW, obj.boardH);
-      obj.boardX -= obj.boardstep;
-      obj.boardX = obj.boardX < 0 ? 0 : obj.boardX;
-      obj.creatBoard();
-    }
-    obj.boardMoveRight = function () {
-      obj.clearRect(obj.boardX, obj.boardY, obj.boardW, obj.boardH);
-      obj.boardX += obj.boardstep;
-      obj.boardX = obj.boardX > (700 - obj.boardW) ? (700 - obj.boardW) : obj.boardX;
-      obj.creatBoard();
-    }
-    return obj;
-  }
-
-  function operate(obj) {
-    if (obj.boardL) {
-      obj.boardMoveLeft();
-    }
-    if (obj.boardR) {
-      obj.boardMoveRight();
-    }
-
-    obj.ballMove();
-
-    requestAnimationFrame(() => operate(obj));
-  }
-
-  function windowRegister(obj) {
-    window.addEventListener('keydown', evt => {
-      if (evt.key === 'a') {
-        obj.boardL = true;
-      }
-      if (evt.key === 'd') {
-        obj.boardR = true;
-      }
-    });
-    window.addEventListener('keyup', evt => {
-      if (evt.key === 'a') {
-        obj.boardL = false;
-      }
-      if (evt.key === 'd') {
-        obj.boardR = false;
-      }
-    });
-  }
-
-  function creatBallObj(obj) {
-    obj.ballX = 370;
-    obj.ballY = 350;
-    obj.ballR = 20;
-    obj.ballStepX = 7;
-    obj.ballStepY = 7;
-    obj.creatBall = function () {
-      obj.beginPath();//开始绘制路径
-      obj.arc(obj.ballX, obj.ballY, obj.ballR, 0, Math.PI * 2, true);//Math.PI为180°，Math.PI*2表示角度为360°
-      obj.closePath();//绘制完成关闭路径
-      obj.fill();//调用样式
-    }
-    obj.ballMove = function () {
-      obj.clearRect(obj.ballX - obj.ballR, obj.ballY - obj.ballR, obj.ballR * 2, obj.ballR * 2);
-      obj.ballStepX = (obj.ballX < obj.ballR || obj.ballX > 700 - obj.ballR) ? -obj.ballStepX : obj.ballStepX;
-      obj.ballX -= obj.ballStepX;
-      const TmpBool = obj.ballY < obj.ballR ||
-        (obj.ballY > obj.boardY - obj.ballR && obj.ballX > obj.boardX && obj.ballX < obj.boardX + obj.boardW);
-      obj.ballStepY = TmpBool ? -obj.ballStepY : obj.ballStepY;
-      obj.ballY -= obj.ballStepY;
-      obj.creatBall();
-    }
-    return obj;
-  }
+  main();
 
   function main() {
-    const obj = drawPic();
-    windowRegister(obj);
+    const game = creatGame();
 
-    const board = creatBoardObj(obj);
-    board.creatBoard();
-    const ball = creatBallObj(obj);
-    ball.creatBall();
-    operate(obj);
+    const board = creatBoard();
+    const ball = creatBall();
+
+
+
+    game.draw = function () {
+      ball.move(board);
+      game.drawImg(board);
+      game.drawImg(ball);
+    };
+    game.registerAction('a', board.moveLeft);
+    game.registerAction('d', board.moveRight);
   }
 
-  main();
+  function creatImg(path) {
+    const img = new Image();
+    img.src = path;
+    return img;
+  }
+
+  function creatBoard() {
+    const img = creatImg('./img/board.PNG');
+    const obj = {
+      x: 300,
+      y: 400,
+      step: 8,
+      img,
+      moveLeft() {
+        const tmp = (obj.x < 0) ? 0 : obj.step;
+        obj.x -= tmp;
+      },
+      moveRight() {
+        const tmp = (obj.x > 650) ? 0 : obj.step;
+        obj.x += tmp;
+      },
+    };
+    return obj;
+  }
+
+  function creatBall() {
+    const img = creatImg('./img/ball.PNG');
+    const obj = {
+      x: 300,
+      y: 300,
+      stepX: 5,
+      stepY: 5,
+      img,
+      move(board) {
+        obj.stepX = (obj.x < 0 || obj.x > 800) ? -obj.stepX : obj.stepX;
+        obj.x -= obj.stepX;
+        const tmpBool = obj.y < 0 || (obj.y > (board.y - 30) && obj.x > board.x && obj.x < board.x + 166)
+        obj.stepY = tmpBool ? -obj.stepY : obj.stepY;
+        obj.y -= obj.stepY;
+      },
+    };
+    return obj;
+  }
+
+  function creatGame() {
+    const canvas = document.querySelector('#cav');
+    const ctx = canvas.getContext('2d');
+
+    const game = {
+      drawImg(obj) {
+        ctx.drawImage(obj.img, obj.x, obj.y);
+      },
+      actions: {},
+      keydowns: {},
+      registerAction(key, cb) {
+        game.actions[key] = cb;
+      }
+    };
+
+    window.addEventListener('keydown', evt => {
+      game.keydowns[evt.key] = true;
+    })
+    window.addEventListener('keyup', evt => {
+      game.keydowns[evt.key] = false;
+    })
+    setInterval(() => {
+      const actions = game.actions;
+      const keydowns = game.keydowns;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      Object.keys(actions).forEach(key => keydowns[key] ? actions[key]() : '');
+      game.draw();
+    }, 1000 / 60);
+    return game;
+  }
 </script>
 
 </html>

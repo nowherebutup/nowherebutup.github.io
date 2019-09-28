@@ -76,7 +76,7 @@
       stepY: 5,
       img,
       move(board) {
-        obj.stepX = (obj.x < 0 || obj.x > 800) ? -obj.stepX : obj.stepX;
+        obj.stepX = (obj.x < 0 || obj.x > 780) ? -obj.stepX : obj.stepX;
         obj.x -= obj.stepX;
         const tmpBool = obj.y < 0 || (obj.y > (board.y - 30) && obj.x > board.x && obj.x < board.x + 166)
         obj.stepY = tmpBool ? -obj.stepY : obj.stepY;

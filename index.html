@@ -43,26 +43,6 @@
       position: absolute;
     }
 
-    .center {
-      height: 280px;
-      width: 220px;
-      position: absolute;
-      top: calc(50% - 140px);
-      left: calc(50% - 110px);
-      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-origin.png') left top/cover no-repeat;
-      animation: center-self-rotate 20s linear infinite;
-    }
-
-    .bg {
-      height: 500px;
-      width: 500px;
-      position: absolute;
-      top: calc(50% - 250px);
-      left: calc(50% - 250px);
-      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-trajectory1.png') 50% 65%/contain no-repeat;
-      animation: center-self-rotate 20s linear infinite;
-    }
-
     .planet>span {
       color: #999;
       width: 50px;
@@ -212,15 +192,6 @@
       }
     }
 
-    @keyframes center-self-rotate {
-      0% {
-        transform: rotateZ(0deg) rotateX(-70deg);
-      }
-
-      100% {
-        transform: rotateZ(-360deg) rotateX(-70deg);
-      }
-    }
   </style>
 </head>
 
@@ -242,8 +213,6 @@
     <div class="planet">
       <span>完全托管</span>
     </div>
-    <div class="center"></div>
-    <div class="bg"></div>
   </div>
 
 

@@ -6,16 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" href="https://necolas.github.io/normalize.css/latest/normalize.css">
   <style>
-    html,
-    body {
-      height: 100vh;
-      background-color: #000;
-    }
-
     a {
-      color: #f1f1f1;
+      color: #000;
       text-decoration: none;
     }
 
@@ -28,6 +21,205 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      padding-top: 160px;
+    }
+
+    .orbit {
+      margin: 100px auto;
+      border: 1px solid #ccc;
+      transform-style: preserve-3d;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      animation: orbit-rotate 20s linear infinite;
+      position: relative;
+    }
+
+
+    .planet {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .center {
+      height: 280px;
+      width: 220px;
+      position: absolute;
+      top: calc(50% - 140px);
+      left: calc(50% - 110px);
+      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-origin.png') left top/cover no-repeat;
+      animation: center-self-rotate 20s linear infinite;
+    }
+
+    .bg {
+      height: 500px;
+      width: 500px;
+      position: absolute;
+      top: calc(50% - 250px);
+      left: calc(50% - 250px);
+      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-trajectory1.png') 50% 65%/contain no-repeat;
+      animation: center-self-rotate 20s linear infinite;
+    }
+
+    .planet>span {
+      color: #999;
+      width: 50px;
+      font-size: 12px;
+      position: absolute;
+      left: 35px;
+      top: 20px;
+      background-color: #fff;
+      border-radius: 2px;
+      padding-left: 5px;
+    }
+
+    .planet>span::before {
+      position: absolute;
+      top: 3px;
+      left: -10px;
+      width: 0;
+      height: 0;
+      content: '';
+      border: 5px solid transparent;
+      border-right-color: #fff;
+    }
+
+    .orbit .planet:first-child {
+      top: calc(50% - 25px);
+      left: -25px;
+      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-ball1.png') left top/cover no-repeat;
+      animation: planet1-self-rotate 20s linear infinite;
+    }
+
+    .orbit .planet:nth-child(2) {
+      top: -25px;
+      left: calc(50% - 25px);
+      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-ball2.png') left top/cover no-repeat;
+      animation: planet2-self-rotate 20s linear infinite;
+    }
+
+    .orbit .planet:nth-child(3) {
+      top: calc(50% - 25px);
+      right: -25px;
+      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-ball3.png') left top/cover no-repeat;
+      animation: planet3-self-rotate 20s linear infinite;
+    }
+
+    .orbit .planet:nth-child(4) {
+      left: calc(50% - 25px);
+      bottom: -25px;
+      animation: planet4-self-rotate 20s linear infinite;
+      background: url('https://res-static3.huaweicloud.com/etc/clientlibs/cloudbu-site/clientlib-product-v5/images/productBase-ball4.png') left top/cover no-repeat;
+    }
+
+    @keyframes orbit-rotate {
+      0% {
+        transform: rotateX(70deg) rotateZ(0deg);
+      }
+
+      100% {
+        transform: rotateX(70deg) rotateZ(360deg);
+      }
+    }
+
+    @keyframes planet1-self-rotate {
+      0% {
+        transform: rotateZ(0deg) rotateX(-70deg) scale(1);
+      }
+
+      25% {
+        transform: rotateZ(-90deg) rotateX(-70deg) scale(0.7);
+      }
+
+      50% {
+        transform: rotateZ(-180deg) rotateX(-70deg) scale(1);
+      }
+
+      75% {
+        transform: rotateZ(-270deg) rotateX(-70deg) scale(1.5);
+      }
+
+      100% {
+        transform: rotateZ(-360deg) rotateX(-70deg) scale(1);
+      }
+    }
+
+    @keyframes planet2-self-rotate {
+      0% {
+        transform: rotateZ(0deg) rotateX(-70deg) scale(0.7);
+      }
+
+      25% {
+        transform: rotateZ(-90deg) rotateX(-70deg) scale(1);
+      }
+
+      50% {
+        transform: rotateZ(-180deg) rotateX(-70deg) scale(1.5);
+      }
+
+      75% {
+        transform: rotateZ(-270deg) rotateX(-70deg) scale(1);
+      }
+
+      100% {
+        transform: rotateZ(-360deg) rotateX(-70deg) scale(0.7);
+      }
+    }
+
+    @keyframes planet3-self-rotate {
+      0% {
+        transform: rotateZ(0deg) rotateX(-70deg) scale(1);
+      }
+
+      25% {
+        transform: rotateZ(-90deg) rotateX(-70deg) scale(1.5);
+      }
+
+      50% {
+        transform: rotateZ(-180deg) rotateX(-70deg) scale(1);
+      }
+
+      75% {
+        transform: rotateZ(-270deg) rotateX(-70deg) scale(0.7);
+      }
+
+      100% {
+        transform: rotateZ(-360deg) rotateX(-70deg) scale(1);
+      }
+    }
+
+    @keyframes planet4-self-rotate {
+      0% {
+        transform: rotateZ(0deg) rotateX(-70deg) scale(1.5);
+      }
+
+      25% {
+        transform: rotateZ(-90deg) rotateX(-70deg) scale(1);
+      }
+
+      50% {
+        transform: rotateZ(-180deg) rotateX(-70deg) scale(0.7);
+      }
+
+      75% {
+        transform: rotateZ(-270deg) rotateX(-70deg) scale(1);
+      }
+
+      100% {
+        transform: rotateZ(-360deg) rotateX(-70deg) scale(1.5);
+      }
+    }
+
+    @keyframes center-self-rotate {
+      0% {
+        transform: rotateZ(0deg) rotateX(-70deg);
+      }
+
+      100% {
+        transform: rotateZ(-360deg) rotateX(-70deg);
+      }
     }
   </style>
 </head>
@@ -37,29 +229,24 @@
     <a href="./balloon.html">balloon</a>
     <a href="./board.html">board</a>
   </div>
+  <div class="orbit">
+    <div class="planet">
+      <span>敏捷高效</span>
+    </div>
+    <div class="planet">
+      <span>企业级</span>
+    </div>
+    <div class="planet">
+      <span>技术开放</span>
+    </div>
+    <div class="planet">
+      <span>完全托管</span>
+    </div>
+    <div class="center"></div>
+    <div class="bg"></div>
+  </div>
+
+
 </body>
-<script src="https://threejs.org/build/three.js"></script>
-<script>
-  var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(75, window.innerWidth / (window.innerHeight / 2), 0.1, 1000);
-  var renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight / 2);
-  document.body.appendChild(renderer.domElement);
-
-  var geometry = new THREE.BoxGeometry(3, 3, 3);
-  var material = new THREE.MeshBasicMaterial({ color: 0xcccccc });
-  var cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
-  camera.position.z = 5;
-
-  function animate() {
-    requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
-  }
-  animate();
-</script>
 
 </html>

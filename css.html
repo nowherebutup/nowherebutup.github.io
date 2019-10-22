@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div {
+      margin: 20px;
+    }
+
+    .rainbow {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 5px inset red,
+        0 0 0 10px inset orange,
+        0 0 0 15px inset yellow,
+        0 0 0 20px inset green,
+        0 0 0 25px inset aqua,
+        0 0 0 30px inset blue,
+        0 0 0 35px inset purple;
+      clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+    }
+
+    .ball {
+      width: 100px;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: #ccc;
+      animation: ball 2s ease-in infinite alternate;
+    }
+
+    .scan {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(#00f, #00f),
+        linear-gradient(90deg, #fff 1px, transparent 1px, transparent 9px),
+        linear-gradient(#fff 1px, transparent 1px, transparent 9px),
+        linear-gradient(transparent, #99f);
+      background-size: 100% 1.5%, 15% 100%, 100% 15%, 100% 100%;
+      background-position: 0 0, 0 0, 0 0, 0 0;
+      background-repeat: no-repeat, repeat, repeat, no-repeat;
+      animation: clip 2s infinite;
+      clip-path: polygon(0 0, 100% 0, 100% 1.5%, 0 1.5%);
+    }
+
+    @keyframes clip {
+      to {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        background-position: 0 100%, 0 0, 0 0, 0 0;
+      }
+    }
+
+    @keyframes ball {
+      to {
+        transform: translate(300%, 0) rotate(360deg);
+      }
+    }
+
+    .btn {
+      outline: none;
+      width: 100px;
+      height: 50px;
+      border-radius: 5px;
+      background: linear-gradient(#b1e2e9, #1d98ac);
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      text-shadow: 1px 1px 3px #666;
+      box-shadow: 1px 2px 3px #666;
+      cursor: pointer;
+    }
+
+    .btn:active {
+      box-shadow: 2px 5px 3px #666;
+      transform: translate(0, 1px);
+    }
+
+    .snake {
+      width: 100px;
+      height: 100px;
+      background-color: #ccc;
+      position: relative;
+    }
+
+    .snake::before {
+      content: '';
+      border: 5px solid aqua;
+      position: absolute;
+      top: -4px;
+      bottom: -5px;
+      left: -5px;
+      right: -5px;
+      animation: snake 3s linear infinite;
+    }
+
+    @keyframes snake {
+
+      0%,
+      100% {
+        clip-path: polygon(0 0, 100% 0, 100% 5px, 0 5px);
+      }
+
+      25% {
+        clip-path: polygon(calc(100% - 5px) 0, 100% 0, 100% 100%, calc(100% - 5px) 100%);
+      }
+
+      50% {
+        clip-path: polygon(0 calc(100% - 5px), 100% calc(100% - 5px), 100% 100%, 0 100%);
+      }
+
+      75% {
+        clip-path: polygon(0 0, 5px 0, 5px 100%, 0 100%);
+      }
+    }
+
+    .lyf {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      transform-style: preserve-3d;
+      perspective-origin: 20% 20%;
+      perspective: 1000px;
+    }
+
+    .lyf img {
+      width: 100%;
+      transform: translateZ(100px);
+      animation: lyf 3s linear infinite alternate;
+    }
+
+    @keyframes lyf {
+      to {
+        transform: translateZ(500px);
+      }
+    }
+
+    .moon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 #000;
+      animation: moon 2s linear infinite alternate;
+    }
+
+    @keyframes moon {
+      to {
+        box-shadow: inset 100px 0 0 #000;
+      }
+    }
+
+    .ring {
+      transform-style: preserve-3d;
+      width: 200px;
+      height: 200px;
+      border: 5px solid #ccc;
+      border-radius: 50%;
+      position: relative;
+      animation: ring 5s linear infinite;
+    }
+
+    .ring::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #999;
+      top: -10px;
+      left: calc(50% - 10px);
+      border-radius: 50%;
+      animation: _ring 5s linear infinite;
+    }
+
+    .mar {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: #666;
+      top: calc(50% - 50px);
+      left: calc(50% - 50px);
+      border-radius: 50%;
+      animation: _ring 5s linear infinite;
+    }
+
+    @keyframes ring {
+      0% {
+        transform: rotateX(80deg) rotateY(15deg) rotateZ(0deg);
+      }
+
+      100% {
+        transform: rotateX(80deg) rotateY(15deg) rotateZ(360deg);
+      }
+    }
+
+    @keyframes _ring {
+      0% {
+        transform: rotateZ(0deg) rotateY(-15deg) rotateX(-80deg);
+      }
+
+      100% {
+        transform: rotateZ(-360deg) rotateY(-15deg) rotateX(-80deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="rainbow"></div>
+  <div class="ball">DJ</div>
+  <div class="scan"></div>
+  <div>
+    <button class="btn">立体按钮</button>
+  </div>
+  <div class="snake">我是内容</div>
+  <div class="lyf">
+    <img
+      src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1571739430450&di=ded149a901fe3a5a5af98568ac43f2c7&imgtype=0&src=http%3A%2F%2Fimg3.duitang.com%2Fuploads%2Fitem%2F201603%2F28%2F20160328121906_ErzAB.thumb.700_0.jpeg"
+      alt="">
+  </div>
+  <div class="moon"></div>
+  <div class="ring">
+    <span class="mar"></>
+  </div>
+</body>
+
+</html>

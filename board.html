@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    h3 {
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="cav" width="800" height="500px"></canvas>
+  <h3>A键: ← </h3>
+  <h3>D键: → </h3>
+</body>
+<script>
+  main();
+
+  function main() {
+    const game = creatGame();
+
+    const board = creatBoard();
+    const ball = creatBall();
+
+
+
+    game.draw = function () {
+      ball.move(board);
+      game.drawImg(board);
+      game.drawImg(ball);
+    };
+    game.registerAction('a', board.moveLeft);
+    game.registerAction('d', board.moveRight);
+  }
+
+  function creatImg(path) {
+    const img = new Image();
+    img.src = path;
+    return img;
+  }
+
+  function creatBoard() {
+    const img = creatImg('./img/board.PNG');
+    const obj = {
+      x: 300,
+      y: 400,
+      step: 8,
+      img,
+      moveLeft() {
+        const tmp = (obj.x < 0) ? 0 : obj.step;
+        obj.x -= tmp;
+      },
+      moveRight() {
+        const tmp = (obj.x > 650) ? 0 : obj.step;
+        obj.x += tmp;
+      },
+    };
+    return obj;
+  }
+
+  function creatBall() {
+    const img = creatImg('./img/ball.PNG');
+    const obj = {
+      x: 300,
+      y: 300,
+      stepX: 5,
+      stepY: 5,
+      img,
+      move(board) {
+        obj.stepX = (obj.x < 0 || obj.x > 780) ? -obj.stepX : obj.stepX;
+        obj.x -= obj.stepX;
+        const tmpBool = obj.y < 0 || (obj.y > (board.y - img.height) && obj.x > board.x && obj.x < board.x + board.img.width)
+        obj.stepY = tmpBool ? -obj.stepY : obj.stepY;
+        obj.y -= obj.stepY;
+      },
+    };
+    return obj;
+  }
+
+  function creatGame() {
+    const canvas = document.querySelector('#cav');
+    const ctx = canvas.getContext('2d');
+
+    const game = {
+      drawImg(obj) {
+        ctx.drawImage(obj.img, obj.x, obj.y);
+      },
+      actions: {},
+      keydowns: {},
+      registerAction(key, cb) {
+        game.actions[key] = cb;
+      }
+    };
+
+    window.addEventListener('keydown', evt => {
+      game.keydowns[evt.key] = true;
+    })
+    window.addEventListener('keyup', evt => {
+      game.keydowns[evt.key] = false;
+    })
+    setInterval(() => {
+      const actions = game.actions;
+      const keydowns = game.keydowns;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      Object.keys(actions).forEach(key => keydowns[key] ? actions[key]() : '');
+      game.draw();
+    }, 1000 / 60);
+    return game;
+  }
+</script>
+
+</html>

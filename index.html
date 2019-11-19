@@ -191,7 +191,6 @@
         transform: rotateZ(-360deg) rotateX(-70deg) scale(1.5);
       }
     }
-
   </style>
 </head>
 
@@ -201,7 +200,7 @@
     <a href="./board.html">board</a>
     <a href="./css.html">CSS</a>
   </div>
-  <div class="orbit">
+  <!-- <div class="orbit">
     <div class="planet">
       <span>富强</span>
     </div>
@@ -214,9 +213,25 @@
     <div class="planet">
       <span>和谐</span>
     </div>
-  </div>
+  </!--> -->
 
-
+  <input id="file" type="file" name="image" accept="image/jpeg,image/jpg,image/png">
+  <img src="" id="img" alt="">
 </body>
+<script>
+  const input = document.querySelector('input[type=file]')
+  const that = this
+  input.addEventListener('change', function () {
+    that.showSheet = false
+    let file = this.files[0]
+    let reader = new FileReader()
+    reader.onload = function () {
+      let url = reader.result
+      const img = document.querySelector('#img')
+      img.src = url
+    }
+    reader.readAsDataURL(file)
+  })
+</script>
 
 </html>

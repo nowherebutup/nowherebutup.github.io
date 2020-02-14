@@ -1,0 +1,80 @@
+body{
+  background-color: #f4f4f4;
+}
+a{
+  text-decoration: none;
+  color: #5a94e0;
+}
+.cme-logo{
+  padding: 15px;
+  text-align: center;
+}
+
+.cme-logo img{
+  margin-bottom: 10px;
+}
+.cme-logo-title{
+  color: #5a94e0;
+  padding: 5px 30px;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 20px;
+  border: 1px solid #5a94e0;
+  margin-bottom: 10px;
+}
+
+.cme-desc{
+  text-align: center;
+  color: #676262;
+}
+
+.cme-desc>div{
+  padding-bottom: 6px;
+}
+
+.cme-desc-tip{
+  color: #b52d28;
+  font-weight: 400;
+}
+
+.cme-main{
+  padding: 10px;
+}
+
+.cme-main>div{
+  height: 90px;
+  display: inline-block;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px #e6e6e6;
+  padding: 5px 0px 5px 20px;
+  margin-bottom: 15px;
+}
+.cme-main p{
+  font-weight: 700;
+  color: #252020;
+}
+.cme-main-item-left{
+  border-right: 1px solid #5a94e0;
+  padding-right: 50px;
+}
+.cme-main-item-right{
+  padding-left: 50px;
+}
+
+/*宽度小于 768px*/
+@media screen and (max-width: 768px){
+  .cme-main>div{
+    width: calc(100% - 20px);
+  }
+}
+
+/*宽度大于 768px*/
+@media screen and (min-width: 768px) {
+  .cme-main>div{
+    width: calc(50% - 30px);
+  }
+  .cme-main>div:nth-child(odd){
+    margin-right: 15px;
+  }
+}
